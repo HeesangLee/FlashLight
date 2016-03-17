@@ -21,3 +21,9 @@ Background service를 이용해서 어쩌다 한번 내 앱(특히 Jumpy X) 에 
 ##Market Share Star
 항상 보이게 하지 말고 앱을 켠 뒤 일정 시간 뒤에 Attach 할 것.  
 Attach 했을 때의 효과가 그리 크지 않을 것 같음.
+
+##Effect
+구성 요소들의 Effect를 너무 과하게 주지는 말 것.
+### OnOff Button click effect
+- Holo effect when isActionDown
+

@@ -56,13 +56,19 @@ public class SceneHome extends BaseScene {
 
 			@Override
 			public void isButtonToggled( ) {
-				// TODO Auto-generated method stub
-
+				super.isButtonToggled();
+				setButtonOnOff( isButtonOn() );
 			}
 		};
 		pOnOffButton.setColor( appColor.ONOFF_BUTTON );
+		pOnOffButton.setCenterPosition( camera.getCenterX(),
+				resourcesManager.applyResizeFactor( 543.768f ) );
 		attachChild( pOnOffButton );
 		registerTouchArea( pOnOffButton );
+
+	}
+
+	private void setButtonOnOff( boolean pBtnOnOff ) {
 
 	}
 
