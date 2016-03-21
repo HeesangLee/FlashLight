@@ -21,6 +21,7 @@ import dalcoms.pub.flashlight.GoMarketSharStarAnimatedSprite;
 import dalcoms.pub.flashlight.Gotype;
 import dalcoms.pub.flashlight.R;
 import dalcoms.pub.flashlight.RectangleOnOffButton;
+import dalcoms.pub.flashlight.RectangleSeekBar;
 import dalcoms.pub.flashlight.ResourcesManager;
 
 public class SceneHome extends BaseScene {
@@ -31,6 +32,10 @@ public class SceneHome extends BaseScene {
 	final boolean INITIAL_BTN_STATUS = false;
 	TiledSprite mLightOnEffectSprite;
 	private boolean LIGHT_ON_OFF = false;
+
+	RectangleSeekBar RectSeekBarOnTime;
+	RectangleSeekBar RectSeekBarOffTime;
+	AnimatedSprite aSpriteMarket,aSpriteShare,aSpriteStar;
 
 	@Override
 	public void createScene( ) {
@@ -51,6 +56,44 @@ public class SceneHome extends BaseScene {
 		this.attachTitileText();
 		this.attachCompanyText();
 		this.attachOnOffButton( INITIAL_BTN_STATUS );
+		this.attachOnOffSeekBars();
+	}
+
+	private void attachOnOffSeekBars( ) {
+		final float pWidth = resourcesManager.applyResizeFactor( 800f );
+		final float pHeight = resourcesManager.applyResizeFactor( 100f );
+		final float pX = hsMath.getAlignCenterFloat( pWidth, camera.getWidth() );
+		final float pYOn = resourcesManager.applyResizeFactor( 910f );
+		final float pYOff = resourcesManager.applyResizeFactor( 1138f );
+
+		RectSeekBarOnTime = new RectangleSeekBar( pX, pYOn, pWidth, pHeight, vbom,
+				resourcesManager.getFontButton(),
+				"ON",
+				appColor.SEEK_BAR,
+				appColor.SEEK_BAR_ACTIVEBAR_EN,
+				appColor.SEEK_BAR_ACTIVEBAR_DIS,
+				appColor.SEEK_BAR_SW_EN,
+				appColor.SEEK_BAR_SW_DIS,
+				1f,
+				true);
+		
+		attachChild( RectSeekBarOnTime );
+		registerTouchArea( RectSeekBarOnTime );
+		
+		RectSeekBarOffTime = new RectangleSeekBar( pX, pYOff, pWidth, pHeight, vbom,
+				resourcesManager.getFontButton(),
+				"OFF",
+				appColor.SEEK_BAR,
+				appColor.SEEK_BAR_ACTIVEBAR_EN,
+				appColor.SEEK_BAR_ACTIVEBAR_DIS,
+				appColor.SEEK_BAR_SW_EN,
+				appColor.SEEK_BAR_SW_DIS,
+				0f,
+				true);
+		
+		attachChild( RectSeekBarOffTime );
+		registerTouchArea( RectSeekBarOffTime );
+
 	}
 
 	private void attachLightOnEffect( boolean pInitialBtnStatus ) {
@@ -109,7 +152,7 @@ public class SceneHome extends BaseScene {
 	}
 
 	private void attachCompanyText( ) {
-		final float pY = resourcesManager.applyResizeFactor( 1500f );
+		final float pY = resourcesManager.applyResizeFactor( 1630f );
 		Text pText = new Text( 0, 0, resourcesManager.getFontDefault(),
 				activity.getString( R.string.company_name ), vbom );
 		pText.setPosition( appComm.getAlignCenterFloat( pText.getWidth(), camera.getWidth() ), pY );
@@ -119,8 +162,10 @@ public class SceneHome extends BaseScene {
 				.registerEntityModifier( new ScaleModifier( 2.5f, 0.1f, 1f, 1f, 1f, EaseBackOut.getInstance() ) );
 	}
 
+	
 	private void attachMarketShareStarAnimatedSprites( ) {
-		final float pY = resourcesManager.applyResizeFactor( 1285f );
+//		final float pY = resourcesManager.applyResizeFactor( 1420f );
+		final float pY=camera.getHeight();
 		float[] pX = appComm.getDistributedCenterOrgPosition(
 				resourcesManager.regionMarketShareStar.getWidth(), 3,
 				resourcesManager.applyResizeFactor( 640f ),
@@ -154,9 +199,9 @@ public class SceneHome extends BaseScene {
 		attachChild( aSpriteShare );
 		registerTouchArea( aSpriteShare );
 
-		aSpriteMarket.registerEntityModifier( new ScaleModifier( 0.5f, 0f, 1f ) );
-		aSpriteStar.registerEntityModifier( new ScaleModifier( 0.5f, 0f, 1f ) );
-		aSpriteShare.registerEntityModifier( new ScaleModifier( 0.5f, 0f, 1f ) );
+//		aSpriteMarket.registerEntityModifier( new ScaleModifier( 0.5f, 0f, 1f ) );
+//		aSpriteStar.registerEntityModifier( new ScaleModifier( 0.5f, 0f, 1f ) );
+//		aSpriteShare.registerEntityModifier( new ScaleModifier( 0.5f, 0f, 1f ) );
 	}
 
 	@Override

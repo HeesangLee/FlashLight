@@ -22,12 +22,21 @@ FingerBrickBreaker 작업에 지쳐 있음 → Refresh 필요 → 완전 단순�
  - 2016-03-19
  - Blink 에 대해서 확인해야 함.
 
+## SeekBar
+- Touch Event 발생 시에 onChanged 를 호출
+- Home scene에서는 sceneTouch LIstener 의 action up을 체크해서 이때에만 뭔가를 하게 할 것.
+
+## Service
+
+- Light On 상태에서 pause 일때에는 Notification 을 띄울 것. (on 상태의 값을 extra로 전달하여 그대로 전달)
+
 
 ##광고
 ###Interstitial ad
 광고 노출 빈도를 낮게 할 것
 ###Banner ad
 *Random*으로 노출하도록 할 것
+→ Handler를 이용해서 일정 시간 간격으로 밑에서 올라왔다가 내려가도록 할 것.
 
 - 노출 위치를 admob 바로 위로 하고 **company text** 는 admob 위치에 놓을 것.
 

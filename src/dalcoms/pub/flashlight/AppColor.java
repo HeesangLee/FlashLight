@@ -29,6 +29,17 @@ public class AppColor {
 			255f / COLOR_8BIT, 180f / COLOR_8BIT );
 	public final Color ONOFF_BUTTON_TEXTOFF = new Color( 0f / COLOR_8BIT, 0f / COLOR_8BIT, 0f / COLOR_8BIT,
 			180f / COLOR_8BIT );
+	
+	public final Color SEEK_BAR = new Color( 51f / COLOR_8BIT, 51f / COLOR_8BIT, 51f / COLOR_8BIT,
+			COLOR_8BIT / COLOR_8BIT );
+	public final Color SEEK_BAR_ACTIVEBAR_EN = new Color( 84f / COLOR_8BIT, 172f / COLOR_8BIT, 210f / COLOR_8BIT,
+			COLOR_8BIT / COLOR_8BIT );
+	public final Color SEEK_BAR_ACTIVEBAR_DIS = new Color( 128f / COLOR_8BIT, 128f / COLOR_8BIT, 128f / COLOR_8BIT,
+			COLOR_8BIT / COLOR_8BIT );
+	public final Color SEEK_BAR_SW_EN = new Color( 41f / COLOR_8BIT, 105f / COLOR_8BIT, 176f / COLOR_8BIT,
+			COLOR_8BIT / COLOR_8BIT );
+	public final Color SEEK_BAR_SW_DIS = new Color( 255f / COLOR_8BIT, 255f / COLOR_8BIT, 255f / COLOR_8BIT,
+			180f / COLOR_8BIT );
 
 	public final Color GUIDE_TXT = new Color( 26f / COLOR_8BIT, 26f / COLOR_8BIT, 26f / COLOR_8BIT,
 			COLOR_8BIT / COLOR_8BIT );
