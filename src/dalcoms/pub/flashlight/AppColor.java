@@ -25,7 +25,11 @@ public class AppColor {
 	public final Color RED = new Color( 1f, 0f, 0f, 1f );
 	public final Color ONOFF_BUTTON = new Color( 41f / COLOR_8BIT, 105f / COLOR_8BIT, 176f / COLOR_8BIT,
 			COLOR_8BIT / COLOR_8BIT );
-	
+	public final Color ONOFF_BUTTON_TEXTON = new Color( 255f / COLOR_8BIT, 255f / COLOR_8BIT,
+			255f / COLOR_8BIT, 180f / COLOR_8BIT );
+	public final Color ONOFF_BUTTON_TEXTOFF = new Color( 0f / COLOR_8BIT, 0f / COLOR_8BIT, 0f / COLOR_8BIT,
+			180f / COLOR_8BIT );
+
 	public final Color GUIDE_TXT = new Color( 26f / COLOR_8BIT, 26f / COLOR_8BIT, 26f / COLOR_8BIT,
 			COLOR_8BIT / COLOR_8BIT );
 	public final Color BUTTON_GRAY = new Color( 111f / COLOR_8BIT, 111f / COLOR_8BIT, 111f / COLOR_8BIT,

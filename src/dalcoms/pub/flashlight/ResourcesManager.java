@@ -59,6 +59,7 @@ public class ResourcesManager {
 	// Regions
 	public ITiledTextureRegion regionMarketShareStar;
 	public ITiledTextureRegion regionOnOffIcon;
+	public ITiledTextureRegion regionLightOnEffect;
 
 	// Sound
 	private static final int FONT_SIZE_DEFAULT = 64;
@@ -220,6 +221,12 @@ public class ResourcesManager {
 						"onofficon_160x100_2x1.svg",
 						this.applyResizeFactor( 160 ),
 						this.applyResizeFactor( 100 ), 2, 1 );
+		
+		regionLightOnEffect = SVGBitmapTextureAtlasTextureRegionFactory
+				.createTiledFromAsset( this.atlasNearestPremultiplyAlpha, this.activity,
+						"lightoneffect660x393_2x1.svg",
+						this.applyResizeFactor( 660 ),
+						this.applyResizeFactor( 394 ), 2, 1 );
 
 		try {
 			atlasNearestPremultiplyAlpha

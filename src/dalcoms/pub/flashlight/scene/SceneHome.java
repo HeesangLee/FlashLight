@@ -6,9 +6,12 @@ import lib.dalcoms.andengineheesanglib.utils.HsMath;
 
 import org.andengine.engine.Engine;
 import org.andengine.engine.camera.Camera;
+import org.andengine.entity.modifier.AlphaModifier;
 import org.andengine.entity.modifier.ScaleModifier;
 import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.sprite.AnimatedSprite;
+import org.andengine.entity.sprite.Sprite;
+import org.andengine.entity.sprite.TiledSprite;
 import org.andengine.entity.text.Text;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.util.modifier.ease.EaseBackOut;
@@ -22,12 +25,12 @@ import dalcoms.pub.flashlight.ResourcesManager;
 
 public class SceneHome extends BaseScene {
 	final String TAG = this.getClass().getSimpleName();
-
 	HsMath hsMath = new HsMath();
-
 	boolean flag_interstitialAdOn = false;
-
 	private final float mCameraWidth = camera.getWidth();
+	final boolean INITIAL_BTN_STATUS = false;
+	TiledSprite mLightOnEffectSprite;
+	private boolean LIGHT_ON_OFF = false;
 
 	@Override
 	public void createScene( ) {
@@ -44,9 +47,24 @@ public class SceneHome extends BaseScene {
 	@Override
 	public void attachSprites( ) {
 		this.attachMarketShareStarAnimatedSprites();
+		this.attachLightOnEffect( INITIAL_BTN_STATUS );
 		this.attachTitileText();
 		this.attachCompanyText();
-		this.attachOnOffButton( false );
+		this.attachOnOffButton( INITIAL_BTN_STATUS );
+	}
+
+	private void attachLightOnEffect( boolean pInitialBtnStatus ) {
+		mLightOnEffectSprite = new TiledSprite( 0, 0, resourcesManager.regionLightOnEffect, vbom );
+		mLightOnEffectSprite.setX( hsMath.getAlignCenterFloat( mLightOnEffectSprite.getWidth(),
+				camera.getWidth() ) );
+		attachChild( mLightOnEffectSprite );
+
+		setLightOnOffEffect( INITIAL_BTN_STATUS, false );
+	}
+
+	private void setLightOnOffEffect( boolean pOnOff, boolean pBlinkOnOff ) {
+		this.mLightOnEffectSprite.setVisible( pOnOff );
+		this.mLightOnEffectSprite.setCurrentTileIndex( ( pBlinkOnOff & pOnOff ) ? 1 : 0 );
 	}
 
 	private void attachOnOffButton( boolean pInitialBtnStatus ) {
@@ -69,7 +87,13 @@ public class SceneHome extends BaseScene {
 	}
 
 	private void setButtonOnOff( boolean pBtnOnOff ) {
+		this.LIGHT_ON_OFF = pBtnOnOff;
+		setLightOnOffEffect( isLightOn(), true );// set blink via blink status;
 
+	}
+
+	private boolean isLightOn( ) {
+		return this.LIGHT_ON_OFF;
 	}
 
 	private void attachTitileText( ) {
