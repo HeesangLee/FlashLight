@@ -24,11 +24,14 @@ import org.andengine.opengl.texture.region.ITiledTextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Typeface;
+import android.hardware.Camera.Parameters;
 import android.os.Vibrator;
 import android.util.Log;
+import android.widget.Toast;
 
 public class ResourcesManager {
 	private static final ResourcesManager instance = new ResourcesManager();
@@ -39,6 +42,9 @@ public class ResourcesManager {
 	protected VertexBufferObjectManager vbom;
 
 	protected Vibrator pVibrator;
+	protected android.hardware.Camera mHardwareCamera;
+	private boolean mIsCameraFlashAvailable;
+	Parameters mHardwareCameraParameter;
 
 	protected float resizeFactor = 1f;
 	private final float cameraWidthRef = 1080f;
@@ -67,7 +73,6 @@ public class ResourcesManager {
 	private Font fontDefault;
 	private Font fontButton;
 
-
 	private Sound soundIntro;
 
 	// =======================================
@@ -85,6 +90,71 @@ public class ResourcesManager {
 		getInstance().resizeFactor = c.getWidth()
 				/ getInstance().cameraWidthRef;
 		getInstance().setVibrator();
+		getInstance().prepareHardwareCameraFlash();
+	}
+
+	public void safeToastMessageShow( String pToastMsg, int pToastLength ) {
+		final String toastMsg = pToastMsg;
+		final int toastLength = pToastLength;
+		activity.runOnUiThread( new Runnable() {
+			@Override
+			public void run( ) {
+				Toast.makeText( activity.getApplicationContext(),
+						toastMsg,
+						toastLength ).show();
+			}
+		} );
+	}
+
+	private void prepareHardwareCameraFlash( ) {
+		if ( checkCameraFlashAvailable() ) {
+			setHardwareCamera();
+		} else {
+			safeToastMessageShow( activity.getString( R.string.no_camera ), Toast.LENGTH_SHORT );
+		}
+	}
+
+	private boolean checkCameraFlashAvailable( ) {
+		return mIsCameraFlashAvailable = activity.getApplicationContext().getPackageManager()
+				.hasSystemFeature( PackageManager.FEATURE_CAMERA_FLASH );
+
+	}
+
+	private void setHardwareCamera( ) {
+		mHardwareCamera = android.hardware.Camera.open();
+		mHardwareCameraParameter = mHardwareCamera.getParameters();
+		mHardwareCameraParameter.setFlashMode( Parameters.FLASH_MODE_OFF );
+		mHardwareCamera.setParameters( mHardwareCameraParameter );
+		mHardwareCamera.startPreview();
+	}
+
+	public android.hardware.Camera getHardwareCamera( ) {
+		return this.mHardwareCamera;
+	}
+
+	public boolean isCameraFlashAvailable( ) {
+		return this.mIsCameraFlashAvailable;
+	}
+
+	public void destroyHardwareCamera( ) {
+		if ( mHardwareCamera != null ) {
+			mHardwareCamera.stopPreview();
+			mHardwareCamera.setPreviewCallback( null );
+			mHardwareCamera = null;
+		}
+	}
+
+	public void resumeHardwareCamera( ) {
+		setHardwareCamera();
+	}
+
+	public void turnOnOffCameraFlash( boolean pOnOff ) {
+		if ( pOnOff ) {
+			mHardwareCameraParameter.setFlashMode( Parameters.FLASH_MODE_TORCH );
+		} else {
+			mHardwareCameraParameter.setFlashMode( Parameters.FLASH_MODE_OFF );
+		}
+		mHardwareCamera.setParameters( mHardwareCameraParameter );
 	}
 
 	private void setVibrator( ) {
@@ -192,11 +262,11 @@ public class ResourcesManager {
 				BitmapTextureFormat.RGBA_8888,
 				TextureOptions.BILINEAR_PREMULTIPLYALPHA );
 
-//		regionGround = SVGBitmapTextureAtlasTextureRegionFactory
-//				.createFromAsset( this.atlasBilinearPremultiplyAlpha,
-//						this.activity, "ground_1080x300.svg",
-//						this.applyResizeFactor( 1080 ),
-//						this.applyResizeFactor( 300 ) );
+		//		regionGround = SVGBitmapTextureAtlasTextureRegionFactory
+		//				.createFromAsset( this.atlasBilinearPremultiplyAlpha,
+		//						this.activity, "ground_1080x300.svg",
+		//						this.applyResizeFactor( 1080 ),
+		//						this.applyResizeFactor( 300 ) );
 
 		try {
 			atlasBilinearPremultiplyAlpha
@@ -221,7 +291,7 @@ public class ResourcesManager {
 						"onofficon_160x100_2x1.svg",
 						this.applyResizeFactor( 160 ),
 						this.applyResizeFactor( 100 ), 2, 1 );
-		
+
 		regionLightOnEffect = SVGBitmapTextureAtlasTextureRegionFactory
 				.createTiledFromAsset( this.atlasNearestPremultiplyAlpha, this.activity,
 						"lightoneffect660x393_2x1.svg",
@@ -246,11 +316,10 @@ public class ResourcesManager {
 				this.applyResizeFactor( sizeAtlasBilinear.y ),
 				BitmapTextureFormat.RGBA_8888, TextureOptions.BILINEAR );
 
-//		regionFinger = SVGBitmapTextureAtlasTextureRegionFactory
-//				.createFromAsset( this.atlasBilinear, this.activity,
-//						"finger_139x126.svg", this.applyResizeFactor( 139 ),
-//						this.applyResizeFactor( 126 ) );
-
+		//		regionFinger = SVGBitmapTextureAtlasTextureRegionFactory
+		//				.createFromAsset( this.atlasBilinear, this.activity,
+		//						"finger_139x126.svg", this.applyResizeFactor( 139 ),
+		//						this.applyResizeFactor( 126 ) );
 
 		try {
 			atlasBilinear

@@ -9,6 +9,8 @@ On/Off time 만을 제어하도록 하는 간단하고 단순한 앱.
 
 완료 이후에는 동일한 UX를 이용하여 진동 제어 앱도 만들 것.  
 FingerBrickBreaker 작업에 지쳐 있음 → Refresh 필요 → 완전 단순한 앱 생성.
+>생각보다 간단하지 아니하다.
+>항상 그러하듯이.....
 
 ##ToDo
 - OnOff button  
@@ -25,10 +27,31 @@ FingerBrickBreaker 작업에 지쳐 있음 → Refresh 필요 → 완전 단순�
 ## SeekBar
 - Touch Event 발생 시에 onChanged 를 호출
 - Home scene에서는 sceneTouch LIstener 의 action up을 체크해서 이때에만 뭔가를 하게 할 것.
+ - 그냥 onSeekChanged 에서 **on/off inverval** 을 바로 변경해도 될 듯
 
 ## Service
 
-- Light On 상태에서 pause 일때에는 Notification 을 띄울 것. (on 상태의 값을 extra로 전달하여 그대로 전달)
+- ~~Light On 상태에서 pause 일때에는 Notification 을 띄울 것. (on 상태의 값을 extra로 전달하여 그대로 전달)~~
+- pause/stop 시에는 무조건 플래쉬를 끄고 카메라 **release** 해야함.
+- onPause()에서 IntentService 만 start → self ad purpose
+
+## Hardware Camera
+
+### Life cycle
+```mermaid
+graph TD;
+ A[onStart]-->B[onResume];
+ B-->|get Hardware Camera object|b1[Active];
+ b1-->|release camera|C[onPause];
+ C-->B;
+ C-->|camera =null|D[onStop];
+ style A fill:#3498db;
+ style B fill:#3498db;
+ style b1 fill:#3498db;
+ style C fill:#3498db;
+ style D fill:#3498db;
+
+```
 
 
 ##광고
@@ -51,4 +74,5 @@ Attach 했을 때의 효과가 그리 크지 않을 것 같음.
 구성 요소들의 Effect를 너무 과하게 주지는 말 것.
 ### OnOff Button click effect
 - Holo effect when isActionDown
+
 

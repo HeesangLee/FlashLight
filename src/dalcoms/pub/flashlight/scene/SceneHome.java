@@ -6,17 +6,16 @@ import lib.dalcoms.andengineheesanglib.utils.HsMath;
 
 import org.andengine.engine.Engine;
 import org.andengine.engine.camera.Camera;
-import org.andengine.entity.modifier.AlphaModifier;
 import org.andengine.entity.modifier.ScaleModifier;
 import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.sprite.AnimatedSprite;
-import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.sprite.TiledSprite;
 import org.andengine.entity.text.Text;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.util.modifier.ease.EaseBackOut;
 
 import android.app.Activity;
+import android.widget.Toast;
 import dalcoms.pub.flashlight.GoMarketSharStarAnimatedSprite;
 import dalcoms.pub.flashlight.Gotype;
 import dalcoms.pub.flashlight.R;
@@ -33,9 +32,11 @@ public class SceneHome extends BaseScene {
 	TiledSprite mLightOnEffectSprite;
 	private boolean LIGHT_ON_OFF = false;
 
+	//	android.hardware.Camera mHardwareCamera;
+
 	RectangleSeekBar RectSeekBarOnTime;
 	RectangleSeekBar RectSeekBarOffTime;
-	AnimatedSprite aSpriteMarket,aSpriteShare,aSpriteStar;
+	AnimatedSprite aSpriteMarket, aSpriteShare, aSpriteStar;
 
 	@Override
 	public void createScene( ) {
@@ -56,10 +57,10 @@ public class SceneHome extends BaseScene {
 		this.attachTitileText();
 		this.attachCompanyText();
 		this.attachOnOffButton( INITIAL_BTN_STATUS );
-		this.attachOnOffSeekBars();
+		this.attachOnOffSeekBars( INITIAL_BTN_STATUS );
 	}
 
-	private void attachOnOffSeekBars( ) {
+	private void attachOnOffSeekBars( boolean pInitialBtnStatus ) {
 		final float pWidth = resourcesManager.applyResizeFactor( 800f );
 		final float pHeight = resourcesManager.applyResizeFactor( 100f );
 		final float pX = hsMath.getAlignCenterFloat( pWidth, camera.getWidth() );
@@ -75,11 +76,11 @@ public class SceneHome extends BaseScene {
 				appColor.SEEK_BAR_SW_EN,
 				appColor.SEEK_BAR_SW_DIS,
 				1f,
-				true);
-		
+				pInitialBtnStatus );
+
 		attachChild( RectSeekBarOnTime );
 		registerTouchArea( RectSeekBarOnTime );
-		
+
 		RectSeekBarOffTime = new RectangleSeekBar( pX, pYOff, pWidth, pHeight, vbom,
 				resourcesManager.getFontButton(),
 				"OFF",
@@ -89,11 +90,16 @@ public class SceneHome extends BaseScene {
 				appColor.SEEK_BAR_SW_EN,
 				appColor.SEEK_BAR_SW_DIS,
 				0f,
-				true);
-		
+				pInitialBtnStatus );
+
 		attachChild( RectSeekBarOffTime );
 		registerTouchArea( RectSeekBarOffTime );
 
+	}
+
+	private void setEnableOnOffSeekBars( boolean pOnSeekBarEn, boolean pOffSeekBarEn ) {
+		RectSeekBarOnTime.setEnable( pOnSeekBarEn );
+		RectSeekBarOffTime.setEnable( pOffSeekBarEn );
 	}
 
 	private void attachLightOnEffect( boolean pInitialBtnStatus ) {
@@ -130,9 +136,15 @@ public class SceneHome extends BaseScene {
 	}
 
 	private void setButtonOnOff( boolean pBtnOnOff ) {
-		this.LIGHT_ON_OFF = pBtnOnOff;
-		setLightOnOffEffect( isLightOn(), true );// set blink via blink status;
-
+		if ( resourcesManager.isCameraFlashAvailable() ) {
+			this.LIGHT_ON_OFF = pBtnOnOff;
+			setLightOnOffEffect( isLightOn(), true );// set blink via blink status;
+			setEnableOnOffSeekBars( isLightOn(), isLightOn() );
+			resourcesManager.turnOnOffCameraFlash( isLightOn() );
+		} else {
+			resourcesManager.safeToastMessageShow( activity.getString( R.string.no_camera ),
+					Toast.LENGTH_SHORT );
+		}
 	}
 
 	private boolean isLightOn( ) {
@@ -142,7 +154,7 @@ public class SceneHome extends BaseScene {
 	private void attachTitileText( ) {
 		final float pY = resourcesManager.applyResizeFactor( 170f );
 		Text pTitleText = new Text( 0, 0, resourcesManager.getFontDefault(),
-				activity.getString( R.string.app_name ), vbom );
+				activity.getString( R.string.app_title ), vbom );
 		pTitleText.setPosition( appComm.getAlignCenterFloat( pTitleText.getWidth(), camera.getWidth() ), pY );
 		attachChild( pTitleText );
 		pTitleText.setColor( appColor.FONT_DEFAULT );
@@ -162,10 +174,9 @@ public class SceneHome extends BaseScene {
 				.registerEntityModifier( new ScaleModifier( 2.5f, 0.1f, 1f, 1f, 1f, EaseBackOut.getInstance() ) );
 	}
 
-	
 	private void attachMarketShareStarAnimatedSprites( ) {
-//		final float pY = resourcesManager.applyResizeFactor( 1420f );
-		final float pY=camera.getHeight();
+		//		final float pY = resourcesManager.applyResizeFactor( 1420f );
+		final float pY = camera.getHeight();
 		float[] pX = appComm.getDistributedCenterOrgPosition(
 				resourcesManager.regionMarketShareStar.getWidth(), 3,
 				resourcesManager.applyResizeFactor( 640f ),
@@ -199,9 +210,9 @@ public class SceneHome extends BaseScene {
 		attachChild( aSpriteShare );
 		registerTouchArea( aSpriteShare );
 
-//		aSpriteMarket.registerEntityModifier( new ScaleModifier( 0.5f, 0f, 1f ) );
-//		aSpriteStar.registerEntityModifier( new ScaleModifier( 0.5f, 0f, 1f ) );
-//		aSpriteShare.registerEntityModifier( new ScaleModifier( 0.5f, 0f, 1f ) );
+		//		aSpriteMarket.registerEntityModifier( new ScaleModifier( 0.5f, 0f, 1f ) );
+		//		aSpriteStar.registerEntityModifier( new ScaleModifier( 0.5f, 0f, 1f ) );
+		//		aSpriteShare.registerEntityModifier( new ScaleModifier( 0.5f, 0f, 1f ) );
 	}
 
 	@Override
@@ -256,4 +267,5 @@ public class SceneHome extends BaseScene {
 		// TODO Auto-generated method stub
 
 	}
+
 }

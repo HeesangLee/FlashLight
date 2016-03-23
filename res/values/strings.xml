@@ -2,6 +2,7 @@
 <resources>
 
     <string name="app_name">FLASHLIGHT</string>
+     <string name="app_title">FLASHLIGHT</string>
     <string name="company_name">dalcoms studio</string>
     <string name="action_settings">Setting</string>
     <string name="admob_banner_id">ca-app-pub-0894410772194388/7240173500</string>
@@ -34,6 +35,8 @@
     <string name="dlg_gotomenu_message">Do you want to go to Menu?</string>
     
     <string name="high_score">dalcoms.pub.flash.highScore</string>
+    
+    <string name="no_camera">No camera flash is on your device</string>
     
 
 </resources>

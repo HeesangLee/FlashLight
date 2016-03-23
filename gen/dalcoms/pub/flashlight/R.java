@@ -2676,23 +2676,24 @@ containing a value of this type.
          */
         public static final int abc_toolbar_collapse_description=0x7f060031;
         public static final int accept=0x7f060003;
-        public static final int action_settings=0x7f060040;
-        public static final int admob_banner_id=0x7f060041;
-        public static final int admob_interstitial_id=0x7f060042;
-        public static final int advertize_myself=0x7f060044;
-        public static final int app_id=0x7f06004a;
+        public static final int action_settings=0x7f060041;
+        public static final int admob_banner_id=0x7f060042;
+        public static final int admob_interstitial_id=0x7f060043;
+        public static final int advertize_myself=0x7f060045;
+        public static final int app_id=0x7f06004b;
         public static final int app_name=0x7f060000;
-        public static final int ask_goto_menu=0x7f060045;
+        public static final int app_title=0x7f06003f;
+        public static final int ask_goto_menu=0x7f060046;
         /**  Brand name for Facebook [DO NOT TRANSLATE] 
          */
         public static final int auth_google_play_services_client_facebook_display_name=0x7f060008;
         /**  Brand name for Google [DO NOT TRANSLATE] 
          */
         public static final int auth_google_play_services_client_google_display_name=0x7f060007;
-        public static final int btn_title_next=0x7f06004c;
-        public static final int btn_title_play=0x7f06004b;
-        public static final int btn_title_retry=0x7f06004d;
-        public static final int btn_title_start=0x7f06004e;
+        public static final int btn_title_next=0x7f06004d;
+        public static final int btn_title_play=0x7f06004c;
+        public static final int btn_title_retry=0x7f06004e;
+        public static final int btn_title_start=0x7f06004f;
         /**  Message of the notification to indicate an active cast display connection.  [CHAR LIMIT=80] NOTE: Same text as msgid="794424023757290105" 
          */
         public static final int cast_notification_connected_message=0x7f06000c;
@@ -2814,19 +2815,20 @@ containing a value of this type.
         /**  Long form sign-in button text [CHAR LIMIT=30] 
          */
         public static final int common_signin_button_text_long=0x7f06000a;
-        public static final int company_name=0x7f06003f;
+        public static final int company_name=0x7f060040;
         public static final int create_calendar_message=0x7f060006;
         public static final int create_calendar_title=0x7f060005;
         public static final int decline=0x7f060004;
-        public static final int dlg_gotomenu_message=0x7f060056;
-        public static final int dlg_gotomenu_title=0x7f060055;
-        public static final int dlg_title_exit=0x7f060047;
-        public static final int dlg_title_free_app=0x7f060046;
-        public static final int finger_text=0x7f060054;
-        public static final int high_score=0x7f060057;
-        public static final int say_good_bye=0x7f060043;
-        public static final int share_subject=0x7f060048;
-        public static final int share_text=0x7f060049;
+        public static final int dlg_gotomenu_message=0x7f060057;
+        public static final int dlg_gotomenu_title=0x7f060056;
+        public static final int dlg_title_exit=0x7f060048;
+        public static final int dlg_title_free_app=0x7f060047;
+        public static final int finger_text=0x7f060055;
+        public static final int high_score=0x7f060058;
+        public static final int no_camera=0x7f060059;
+        public static final int say_good_bye=0x7f060044;
+        public static final int share_subject=0x7f060049;
+        public static final int share_text=0x7f06004a;
         /**  Text to use when the number in a notification info is too large
          (greater than status_bar_notification_info_maxnum, defined in
          values/config.xml) and must be truncated. May need to be localized
@@ -2836,11 +2838,11 @@ containing a value of this type.
         public static final int status_bar_notification_info_overflow=0x7f06003e;
         public static final int store_picture_message=0x7f060002;
         public static final int store_picture_title=0x7f060001;
-        public static final int text_bestscore=0x7f060050;
-        public static final int text_cancel=0x7f060053;
-        public static final int text_no=0x7f060052;
-        public static final int text_score=0x7f06004f;
-        public static final int text_yes=0x7f060051;
+        public static final int text_bestscore=0x7f060051;
+        public static final int text_cancel=0x7f060054;
+        public static final int text_no=0x7f060053;
+        public static final int text_score=0x7f060050;
+        public static final int text_yes=0x7f060052;
         /**  Text on a placeholder buy button when Google Play services is not
          available or up-to-date 
  Text on a button that allows a user to make a payment with Google Wallet

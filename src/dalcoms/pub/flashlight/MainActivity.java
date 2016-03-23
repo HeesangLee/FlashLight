@@ -131,6 +131,7 @@ public class MainActivity extends LayoutGameActivity {
 	public void onDestroy( ) {
 		//		ResourcesManager.getInstance().mVibrator.cancel();
 		ResourcesManager.getInstance().getVibrator().cancel();
+		ResourcesManager.getInstance().destroyHardwareCamera();
 		hasBeenDestroyedPaused = true;
 		adMobAdView.destroy();
 		super.onDestroy();
@@ -141,6 +142,7 @@ public class MainActivity extends LayoutGameActivity {
 	public void onPause( ) {
 		//		ResourcesManager.getInstance().mVibrator.cancel();
 		ResourcesManager.getInstance().getVibrator().cancel();
+		ResourcesManager.getInstance().getHardwareCamera().release();
 		hasBeenDestroyedPaused = true;
 		adMobAdView.pause();
 		super.onPause();
@@ -149,6 +151,7 @@ public class MainActivity extends LayoutGameActivity {
 	@Override
 	public synchronized void onResume( ) {
 		adMobAdView.resume();
+		ResourcesManager.getInstance().resumeHardwareCamera();
 
 		super.onResume();
 	}

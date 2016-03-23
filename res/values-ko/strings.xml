@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">손전등</string>
+    <string name="company_name">dalcoms studio</string>
+    <string name="action_settings">설정</string>
+    <string name="admob_banner_id">ca-app-pub-0894410772194388/7240173500</string>
+    <string name="admob_interstitial_id">ca-app-pub-0894410772194388/4147106300</string>
+    
+    <string name="say_good_bye">앱을 종료하시겠습니까?</string>
+    <string name="advertize_myself">다양한 무료앱을 구경하시겠습니까?</string>
+    <string name="ask_goto_menu">홈메뉴로 가시겠습니까?</string>
+    <string name="dlg_title_free_app">무료앱</string>
+    <string name="dlg_title_exit">종료</string>
+    <string name="share_subject">손전등</string>
+    <string name="share_text">[Free] 손전등 \n https://play.google.com/store/apps/details?id=dalcoms.pub.flashlight</string>
+    <string name="app_id">dalcoms.pub.flashlight</string>
+    
+    <string name="text_yes">네</string>
+    <string name="text_no">아니오</string>
+    <string name="text_cancel">취소</string>
+    
+    
+    <string name="dlg_gotomenu_title">메뉴</string>
+    <string name="dlg_gotomenu_message">메뉴로 가시겠습니까?</string>
+    
+    <string name="high_score">dalcoms.pub.flash.highScore</string>
+    
+    <string name="no_camera">기기에 카메라 플레쉬가 없습니다.</string>
+    
+
+</resources>

@@ -69,6 +69,15 @@ public class RectangleSeekBar extends Rectangle {
 		} );
 	}
 
+	public boolean isEnabled( ) {
+		return this.mState;
+	}
+
+	public void setEnable( boolean pEn ) {
+		this.mState = pEn;
+		setColorState( isEnabled() );
+	}
+
 	private void setColorState( boolean pDisEn ) {//false=disabled, true=enabled
 		mRectActiveBar.setColor( pDisEn ? mColorActiveBarEnabled : mColorActiveBarDisabled );
 		mRectSwitch.setColor( pDisEn ? mColorSwitchEnabled : mColorSwitchDisabled );
@@ -92,7 +101,7 @@ public class RectangleSeekBar extends Rectangle {
 		attachSwitch();
 		attachTitleText();
 
-		setColorState( this.mState );
+		setColorState( isEnabled() );
 	}
 
 	private void attachSeekBar( ) {
@@ -141,7 +150,7 @@ public class RectangleSeekBar extends Rectangle {
 			pX = pCenterX - pKeyWidthHalf;
 		}
 		mRectSwitch.setX( pX );
-		
+
 		mRectActiveBar.setWidth( pX );
 	}
 
@@ -153,24 +162,29 @@ public class RectangleSeekBar extends Rectangle {
 
 	@Override
 	public boolean onAreaTouched( TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY ) {
-		if ( pSceneTouchEvent.isActionDown() ) {
-			isTouchEnabled = true;
-			resourceManager.getVibrator().vibrate( 30 );
-			setKeyPosition( pTouchAreaLocalX );
-			onSeekChanged();
-		} else {
-			if ( pSceneTouchEvent.isActionMove() ) {
-				if ( isTouchEnabled ) {
-					setKeyPosition( pTouchAreaLocalX );
-					onSeekChanged();
-				}
-			} else if ( pSceneTouchEvent.isActionUp() ) {
-				if ( isTouchEnabled ) {
-					isTouchEnabled = false;
-					onSeekChanged();
+		if ( isEnabled() ) {
+			if ( pSceneTouchEvent.isActionDown() ) {
+				isTouchEnabled = true;
+				resourceManager.getVibrator().vibrate( 30 );
+				setKeyPosition( pTouchAreaLocalX );
+				onSeekChanged();
+			} else {
+				if ( pSceneTouchEvent.isActionMove() ) {
+					if ( isTouchEnabled ) {
+						setKeyPosition( pTouchAreaLocalX );
+						onSeekChanged();
+					}
+				} else if ( pSceneTouchEvent.isActionUp() ) {
+					if ( isTouchEnabled ) {
+						isTouchEnabled = false;
+						onSeekChanged();
+					}
 				}
 			}
+		} else {
+			isTouchEnabled = false;
 		}
+
 		return super.onAreaTouched( pSceneTouchEvent, pTouchAreaLocalX, pTouchAreaLocalY );
 	}
 

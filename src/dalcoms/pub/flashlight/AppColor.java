@@ -38,8 +38,8 @@ public class AppColor {
 			COLOR_8BIT / COLOR_8BIT );
 	public final Color SEEK_BAR_SW_EN = new Color( 41f / COLOR_8BIT, 105f / COLOR_8BIT, 176f / COLOR_8BIT,
 			COLOR_8BIT / COLOR_8BIT );
-	public final Color SEEK_BAR_SW_DIS = new Color( 255f / COLOR_8BIT, 255f / COLOR_8BIT, 255f / COLOR_8BIT,
-			180f / COLOR_8BIT );
+	public final Color SEEK_BAR_SW_DIS = new Color( 77f / COLOR_8BIT, 77f / COLOR_8BIT, 77f / COLOR_8BIT,
+			COLOR_8BIT / COLOR_8BIT );
 
 	public final Color GUIDE_TXT = new Color( 26f / COLOR_8BIT, 26f / COLOR_8BIT, 26f / COLOR_8BIT,
 			COLOR_8BIT / COLOR_8BIT );
