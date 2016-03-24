@@ -6,11 +6,16 @@ import lib.dalcoms.andengineheesanglib.utils.HsMath;
 
 import org.andengine.engine.Engine;
 import org.andengine.engine.camera.Camera;
+import org.andengine.engine.handler.timer.ITimerCallback;
+import org.andengine.engine.handler.timer.TimerHandler;
 import org.andengine.entity.modifier.ScaleModifier;
+import org.andengine.entity.scene.IOnSceneTouchListener;
+import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.entity.sprite.TiledSprite;
 import org.andengine.entity.text.Text;
+import org.andengine.input.touch.TouchEvent;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.util.modifier.ease.EaseBackOut;
 
@@ -23,7 +28,8 @@ import dalcoms.pub.flashlight.RectangleOnOffButton;
 import dalcoms.pub.flashlight.RectangleSeekBar;
 import dalcoms.pub.flashlight.ResourcesManager;
 
-public class SceneHome extends BaseScene {
+public class SceneHome extends BaseScene
+		implements IOnSceneTouchListener {
 	final String TAG = this.getClass().getSimpleName();
 	HsMath hsMath = new HsMath();
 	boolean flag_interstitialAdOn = false;
@@ -32,15 +38,22 @@ public class SceneHome extends BaseScene {
 	TiledSprite mLightOnEffectSprite;
 	private boolean LIGHT_ON_OFF = false;
 
-	//	android.hardware.Camera mHardwareCamera;
-
 	RectangleSeekBar RectSeekBarOnTime;
 	RectangleSeekBar RectSeekBarOffTime;
 	AnimatedSprite aSpriteMarket, aSpriteShare, aSpriteStar;
 
+	FlashOnOffInterval mFlashOnOffInterval;
+
+	final float SCENE_TIMER_TIME = 0.05f;
+	final float INIT_ON_RATIO = 1f;
+	final float INIT_OFF_RATIO = 0f;
+
 	@Override
 	public void createScene( ) {
 		this.setBackground( new Background( this.appColor.APP_BACKGROUND ) );
+
+		mFlashOnOffInterval = new FlashOnOffInterval( INIT_ON_RATIO, INIT_OFF_RATIO );
+		setOnSceneTouchListener( this );
 
 		this.engine.runOnUpdateThread( new Runnable() {
 			@Override
@@ -48,6 +61,21 @@ public class SceneHome extends BaseScene {
 				attachSprites();
 			}
 		} );
+
+		this.engine.registerUpdateHandler( new TimerHandler( SCENE_TIMER_TIME, true, new ITimerCallback() {
+
+			@Override
+			public void onTimePassed( TimerHandler pTimerHandler ) {
+				flashLightOnControlcheckTimer();
+			}
+		} ) );
+
+	}
+
+	private void flashLightOnControlcheckTimer( ) {
+		resourcesManager.turnOnOffCameraFlash( isLightOn()&mFlashOnOffInterval.isLightOn() );
+		setLightOnOffEffect( isLightOn(), mFlashOnOffInterval.isLightOn() );// set blink via blink status;
+		mFlashOnOffInterval.next();
 	}
 
 	@Override
@@ -75,7 +103,7 @@ public class SceneHome extends BaseScene {
 				appColor.SEEK_BAR_ACTIVEBAR_DIS,
 				appColor.SEEK_BAR_SW_EN,
 				appColor.SEEK_BAR_SW_DIS,
-				1f,
+				INIT_ON_RATIO,
 				pInitialBtnStatus );
 
 		attachChild( RectSeekBarOnTime );
@@ -89,7 +117,7 @@ public class SceneHome extends BaseScene {
 				appColor.SEEK_BAR_ACTIVEBAR_DIS,
 				appColor.SEEK_BAR_SW_EN,
 				appColor.SEEK_BAR_SW_DIS,
-				0f,
+				INIT_OFF_RATIO,
 				pInitialBtnStatus );
 
 		attachChild( RectSeekBarOffTime );
@@ -138,9 +166,9 @@ public class SceneHome extends BaseScene {
 	private void setButtonOnOff( boolean pBtnOnOff ) {
 		if ( resourcesManager.isCameraFlashAvailable() ) {
 			this.LIGHT_ON_OFF = pBtnOnOff;
-			setLightOnOffEffect( isLightOn(), true );// set blink via blink status;
+			//			setLightOnOffEffect( isLightOn(), true );// set blink via blink status;
 			setEnableOnOffSeekBars( isLightOn(), isLightOn() );
-			resourcesManager.turnOnOffCameraFlash( isLightOn() );
+			//			resourcesManager.turnOnOffCameraFlash( isLightOn() );
 		} else {
 			resourcesManager.safeToastMessageShow( activity.getString( R.string.no_camera ),
 					Toast.LENGTH_SHORT );
@@ -266,6 +294,80 @@ public class SceneHome extends BaseScene {
 	public void disposeScene( ) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public boolean onSceneTouchEvent( Scene pScene, TouchEvent pSceneTouchEvent ) {
+		if ( pSceneTouchEvent.isActionUp() ) {
+			if ( ( RectSeekBarOnTime != null ) && ( RectSeekBarOffTime != null ) ) {
+				mFlashOnOffInterval.resetCurrentIndex();
+				mFlashOnOffInterval.setOnInterval( RectSeekBarOnTime.getSeekRatio() );
+				mFlashOnOffInterval.setOffInterval( RectSeekBarOffTime.getSeekRatio() );
+			}
+		}
+		return false;
+	}
+
+	private class FlashOnOffInterval {
+		final float MAX_INTERVAL = 60;
+		private int onInterval = 0;
+		private int offInterval = 0;
+		private int onOffInterval = 0;
+		private int curIndex = 0;
+
+		public FlashOnOffInterval( float pOnIntervalRatio, float pOffIntervalRatio ) {
+			setOnInterval( pOnIntervalRatio );
+			setOffInterval( pOffIntervalRatio );
+		}
+
+		private void setOnInterval( float pOnIntervalRatio ) {
+			this.onInterval = Math.round( MAX_INTERVAL * pOnIntervalRatio );
+			setOnOffInterval( getOnInterval(), getOffInterval() );
+		}
+
+		public int getOnInterval( ) {
+			return this.onInterval;
+		}
+
+		private void setOffInterval( float pOffIntervalRatio ) {
+			this.offInterval = Math.round( MAX_INTERVAL * pOffIntervalRatio );
+			setOnOffInterval( getOnInterval(), getOffInterval() );
+		}
+
+		public int getOffInterval( ) {
+			return this.offInterval;
+		}
+
+		public void resetCurrentIndex( ) {
+			this.curIndex = 0;
+		}
+
+		public int getCurrentIndex( ) {
+			return this.curIndex;
+		}
+
+		private void setOnOffInterval( int pOnInterval, int pOffInterval ) {
+			onOffInterval = pOnInterval + pOffInterval;
+		}
+
+		public int getOnOffInterval( ) {
+			return onOffInterval;
+		}
+
+		public boolean isLightOn( ) {
+			boolean result = false;
+
+			if ( getCurrentIndex() < getOnInterval() ) {
+				result = true;
+			}
+			return result;
+		}
+
+		public boolean next( ) {//true = light on , false = light off
+			this.curIndex = this.curIndex < getOnOffInterval() ? this.curIndex + 1 : 0;
+
+			return this.isLightOn();
+		}
 	}
 
 }

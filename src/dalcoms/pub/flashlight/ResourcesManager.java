@@ -2,7 +2,6 @@ package dalcoms.pub.flashlight;
 
 import java.io.IOException;
 
-import org.andengine.audio.music.MusicFactory;
 import org.andengine.audio.sound.Sound;
 import org.andengine.audio.sound.SoundFactory;
 import org.andengine.engine.Engine;
@@ -19,15 +18,12 @@ import org.andengine.opengl.texture.atlas.bitmap.source.IBitmapTextureAtlasSourc
 import org.andengine.opengl.texture.atlas.buildable.builder.BlackPawnTextureAtlasBuilder;
 import org.andengine.opengl.texture.atlas.buildable.builder.ITextureAtlasBuilder.TextureAtlasBuilderException;
 import org.andengine.opengl.texture.bitmap.BitmapTextureFormat;
-import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.texture.region.ITiledTextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.graphics.Point;
-import android.graphics.Typeface;
 import android.hardware.Camera.Parameters;
 import android.os.Vibrator;
 import android.util.Log;
@@ -149,12 +145,17 @@ public class ResourcesManager {
 	}
 
 	public void turnOnOffCameraFlash( boolean pOnOff ) {
-		if ( pOnOff ) {
-			mHardwareCameraParameter.setFlashMode( Parameters.FLASH_MODE_TORCH );
-		} else {
-			mHardwareCameraParameter.setFlashMode( Parameters.FLASH_MODE_OFF );
+		try {
+			if ( pOnOff ) {
+				mHardwareCameraParameter.setFlashMode( Parameters.FLASH_MODE_TORCH );
+			} else {
+				mHardwareCameraParameter.setFlashMode( Parameters.FLASH_MODE_OFF );
+			}
+			mHardwareCamera.setParameters( mHardwareCameraParameter );
+		} catch ( Exception e ) {
+			e.printStackTrace();
 		}
-		mHardwareCamera.setParameters( mHardwareCameraParameter );
+
 	}
 
 	private void setVibrator( ) {
