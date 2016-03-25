@@ -139,6 +139,15 @@ public class RectangleSeekBar extends Rectangle {
 		attachChild( mTextTitle );
 	}
 
+	public void rePositionKey( float pPositionRatio ) {
+		//		final float pX = getSeekPosition( pPositionRatio );
+		//		mRectSwitch.setX( pX );
+		//
+		//		mRectActiveBar.setWidth( pX );
+
+		setKeyPosition( getSeekPosition( pPositionRatio ) );
+	}
+
 	private void setKeyPosition( float pCenterX ) {
 		float pKeyWidthHalf = mRectSwitch.getWidth() / 2f;
 		float pX = 0;

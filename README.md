@@ -13,9 +13,11 @@ FingerBrickBreaker 작업에 지쳐 있음 → Refresh 필요 → 완전 단순�
 >항상 그러하듯이.....
 
 ##ToDo
-- OnOff button  
-- Light on effect
-- Seek bar   
+- **Seek bar**
+ - sceneTouch.isUp → adjust key position via step.
+- Application.onDestroy()에서 카메라를 null 처리할 때 에러 발생
+ - 현재 : 임시 방안으로 **try/catch** 로 에러가 보여지는 것만 맊았음.
+ - 해결 방안 찾아서 적용해야 함.
 
 ##Issue Tracking
 - OnOff button 완료

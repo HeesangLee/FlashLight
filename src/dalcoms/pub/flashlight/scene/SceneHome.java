@@ -8,6 +8,7 @@ import org.andengine.engine.Engine;
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.handler.timer.ITimerCallback;
 import org.andengine.engine.handler.timer.TimerHandler;
+import org.andengine.entity.modifier.MoveYModifier;
 import org.andengine.entity.modifier.ScaleModifier;
 import org.andengine.entity.scene.IOnSceneTouchListener;
 import org.andengine.entity.scene.Scene;
@@ -33,20 +34,23 @@ public class SceneHome extends BaseScene
 	final String TAG = this.getClass().getSimpleName();
 	HsMath hsMath = new HsMath();
 	boolean flag_interstitialAdOn = false;
-	private final float mCameraWidth = camera.getWidth();
 	final boolean INITIAL_BTN_STATUS = false;
 	TiledSprite mLightOnEffectSprite;
 	private boolean LIGHT_ON_OFF = false;
 
-	RectangleSeekBar RectSeekBarOnTime;
-	RectangleSeekBar RectSeekBarOffTime;
+	RectangleSeekBar rectSeekBarOnTime;
+	RectangleSeekBar rectSeekBarOffTime;
 	AnimatedSprite aSpriteMarket, aSpriteShare, aSpriteStar;
 
 	FlashOnOffInterval mFlashOnOffInterval;
 
-	final float SCENE_TIMER_TIME = 0.05f;
+	final float SCENE_TIMER_TIME = 5.0f / 60.0f;
 	final float INIT_ON_RATIO = 1f;
 	final float INIT_OFF_RATIO = 0f;
+
+	final int SELF_AD_ON = 300;
+	final int SELF_AD_OFF = 500;
+	private int mAdOnOffIndex = 0;
 
 	@Override
 	public void createScene( ) {
@@ -67,13 +71,39 @@ public class SceneHome extends BaseScene
 			@Override
 			public void onTimePassed( TimerHandler pTimerHandler ) {
 				flashLightOnControlcheckTimer();
+				selfAdCheckTimer();
 			}
 		} ) );
 
 	}
 
+	private void selfAdCheckTimer( ) {
+		mAdOnOffIndex = mAdOnOffIndex < ( SELF_AD_ON + SELF_AD_OFF - 1 ) ? mAdOnOffIndex + 1 : 0;
+		if ( mAdOnOffIndex == 0 ) {
+			//disappear ad to down of the screen
+			setSelfAdVisible( false );
+		} else if ( mAdOnOffIndex == SELF_AD_OFF ) {
+			//appear ad
+			setSelfAdVisible( true );
+		}
+	}
+
+	private void setSelfAdVisible( boolean pVisible ) {
+		final float pVisibleY = resourcesManager.applyResizeFactor( 1396f );
+		if ( pVisible ) {
+			//			aSpriteMarket, aSpriteShare, aSpriteStar;
+			aSpriteMarket.registerEntityModifier( new MoveYModifier( 1.5f, camera.getHeight(), pVisibleY ) );
+			aSpriteShare.registerEntityModifier( new MoveYModifier( 1f, camera.getHeight(), pVisibleY ) );
+			aSpriteStar.registerEntityModifier( new MoveYModifier( 1.5f, camera.getHeight(), pVisibleY ) );
+		} else {
+			aSpriteMarket.registerEntityModifier( new MoveYModifier( 1f, pVisibleY, camera.getHeight() ) );
+			aSpriteShare.registerEntityModifier( new MoveYModifier( 1f, pVisibleY, camera.getHeight() ) );
+			aSpriteStar.registerEntityModifier( new MoveYModifier( 1f, pVisibleY, camera.getHeight() ) );
+		}
+	}
+
 	private void flashLightOnControlcheckTimer( ) {
-		resourcesManager.turnOnOffCameraFlash( isLightOn()&mFlashOnOffInterval.isLightOn() );
+		resourcesManager.turnOnOffCameraFlash( isLightOn() & mFlashOnOffInterval.isLightOn() );
 		setLightOnOffEffect( isLightOn(), mFlashOnOffInterval.isLightOn() );// set blink via blink status;
 		mFlashOnOffInterval.next();
 	}
@@ -95,7 +125,7 @@ public class SceneHome extends BaseScene
 		final float pYOn = resourcesManager.applyResizeFactor( 910f );
 		final float pYOff = resourcesManager.applyResizeFactor( 1138f );
 
-		RectSeekBarOnTime = new RectangleSeekBar( pX, pYOn, pWidth, pHeight, vbom,
+		rectSeekBarOnTime = new RectangleSeekBar( pX, pYOn, pWidth, pHeight, vbom,
 				resourcesManager.getFontButton(),
 				"ON",
 				appColor.SEEK_BAR,
@@ -106,10 +136,10 @@ public class SceneHome extends BaseScene
 				INIT_ON_RATIO,
 				pInitialBtnStatus );
 
-		attachChild( RectSeekBarOnTime );
-		registerTouchArea( RectSeekBarOnTime );
+		attachChild( rectSeekBarOnTime );
+		registerTouchArea( rectSeekBarOnTime );
 
-		RectSeekBarOffTime = new RectangleSeekBar( pX, pYOff, pWidth, pHeight, vbom,
+		rectSeekBarOffTime = new RectangleSeekBar( pX, pYOff, pWidth, pHeight, vbom,
 				resourcesManager.getFontButton(),
 				"OFF",
 				appColor.SEEK_BAR,
@@ -120,14 +150,14 @@ public class SceneHome extends BaseScene
 				INIT_OFF_RATIO,
 				pInitialBtnStatus );
 
-		attachChild( RectSeekBarOffTime );
-		registerTouchArea( RectSeekBarOffTime );
+		attachChild( rectSeekBarOffTime );
+		registerTouchArea( rectSeekBarOffTime );
 
 	}
 
 	private void setEnableOnOffSeekBars( boolean pOnSeekBarEn, boolean pOffSeekBarEn ) {
-		RectSeekBarOnTime.setEnable( pOnSeekBarEn );
-		RectSeekBarOffTime.setEnable( pOffSeekBarEn );
+		rectSeekBarOnTime.setEnable( pOnSeekBarEn );
+		rectSeekBarOffTime.setEnable( pOffSeekBarEn );
 	}
 
 	private void attachLightOnEffect( boolean pInitialBtnStatus ) {
@@ -210,13 +240,13 @@ public class SceneHome extends BaseScene
 				resourcesManager.applyResizeFactor( 640f ),
 				( camera.getWidth() - resourcesManager.applyResizeFactor( 640f ) ) / 2f );
 
-		AnimatedSprite aSpriteMarket = new GoMarketSharStarAnimatedSprite( pX[0], pY,
+		aSpriteMarket = new GoMarketSharStarAnimatedSprite( pX[0], pY,
 				resourcesManager.regionMarketShareStar, vbom ).activityOn( activity ).goType(
 				Gotype.GO_MARKET );
 
 		aSpriteMarket.animate( new long[] { 500, 500 }, 0, 1, true );
 
-		AnimatedSprite aSpriteShare = new GoMarketSharStarAnimatedSprite( pX[1], pY,
+		aSpriteShare = new GoMarketSharStarAnimatedSprite( pX[1], pY,
 				resourcesManager.regionMarketShareStar, vbom )
 				.activityOn( activity )
 				.goType( Gotype.GO_SHARE )
@@ -225,7 +255,7 @@ public class SceneHome extends BaseScene
 
 		aSpriteShare.animate( new long[] { 500, 500 }, 2, 3, true );
 
-		AnimatedSprite aSpriteStar = new GoMarketSharStarAnimatedSprite( pX[2], pY,
+		aSpriteStar = new GoMarketSharStarAnimatedSprite( pX[2], pY,
 				resourcesManager.regionMarketShareStar, vbom ).activityOn( activity ).goType( Gotype.GO_STAR )
 				.appId( activity.getString( R.string.app_id ) );
 
@@ -237,10 +267,6 @@ public class SceneHome extends BaseScene
 		registerTouchArea( aSpriteStar );
 		attachChild( aSpriteShare );
 		registerTouchArea( aSpriteShare );
-
-		//		aSpriteMarket.registerEntityModifier( new ScaleModifier( 0.5f, 0f, 1f ) );
-		//		aSpriteStar.registerEntityModifier( new ScaleModifier( 0.5f, 0f, 1f ) );
-		//		aSpriteShare.registerEntityModifier( new ScaleModifier( 0.5f, 0f, 1f ) );
 	}
 
 	@Override
@@ -299,17 +325,20 @@ public class SceneHome extends BaseScene
 	@Override
 	public boolean onSceneTouchEvent( Scene pScene, TouchEvent pSceneTouchEvent ) {
 		if ( pSceneTouchEvent.isActionUp() ) {
-			if ( ( RectSeekBarOnTime != null ) && ( RectSeekBarOffTime != null ) ) {
+			if ( ( rectSeekBarOnTime != null ) && ( rectSeekBarOffTime != null ) ) {
 				mFlashOnOffInterval.resetCurrentIndex();
-				mFlashOnOffInterval.setOnInterval( RectSeekBarOnTime.getSeekRatio() );
-				mFlashOnOffInterval.setOffInterval( RectSeekBarOffTime.getSeekRatio() );
+				mFlashOnOffInterval.setOnInterval( rectSeekBarOnTime.getSeekRatio() );
+				mFlashOnOffInterval.setOffInterval( rectSeekBarOffTime.getSeekRatio() );
+
+				rectSeekBarOnTime.rePositionKey( mFlashOnOffInterval.getOnIntervalRatio() );
+				rectSeekBarOffTime.rePositionKey( mFlashOnOffInterval.getOffIntervalRatio() );
 			}
 		}
 		return false;
 	}
 
 	private class FlashOnOffInterval {
-		final float MAX_INTERVAL = 60;
+		final float MAX_INTERVAL = 40;
 		private int onInterval = 0;
 		private int offInterval = 0;
 		private int onOffInterval = 0;
@@ -329,6 +358,10 @@ public class SceneHome extends BaseScene
 			return this.onInterval;
 		}
 
+		public float getOnIntervalRatio( ) {
+			return this.onInterval / this.MAX_INTERVAL;
+		}
+
 		private void setOffInterval( float pOffIntervalRatio ) {
 			this.offInterval = Math.round( MAX_INTERVAL * pOffIntervalRatio );
 			setOnOffInterval( getOnInterval(), getOffInterval() );
@@ -336,6 +369,10 @@ public class SceneHome extends BaseScene
 
 		public int getOffInterval( ) {
 			return this.offInterval;
+		}
+
+		public float getOffIntervalRatio( ) {
+			return this.offInterval / this.MAX_INTERVAL;
 		}
 
 		public void resetCurrentIndex( ) {
@@ -364,7 +401,7 @@ public class SceneHome extends BaseScene
 		}
 
 		public boolean next( ) {//true = light on , false = light off
-			this.curIndex = this.curIndex < getOnOffInterval() ? this.curIndex + 1 : 0;
+			this.curIndex = this.curIndex < ( getOnOffInterval() - 1 ) ? this.curIndex + 1 : 0;
 
 			return this.isLightOn();
 		}
