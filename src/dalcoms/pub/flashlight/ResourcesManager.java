@@ -87,6 +87,7 @@ public class ResourcesManager {
 				/ getInstance().cameraWidthRef;
 		getInstance().setVibrator();
 		getInstance().prepareHardwareCameraFlash();
+
 	}
 
 	public void safeToastMessageShow( String pToastMsg, int pToastLength ) {

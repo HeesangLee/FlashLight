@@ -2,12 +2,11 @@
 <resources>
 
     <string name="app_name">FLASHLIGHT</string>
-     <string name="app_title">FLASHLIGHT</string>
+    <string name="app_title">FLASHLIGHT</string>
     <string name="company_name">dalcoms studio</string>
     <string name="action_settings">Setting</string>
     <string name="admob_banner_id">ca-app-pub-0894410772194388/7240173500</string>
     <string name="admob_interstitial_id">ca-app-pub-0894410772194388/4147106300</string>
-    
     <string name="say_good_bye">Do you want to exit?</string>
     <string name="advertize_myself">Do you want to see more Free App?</string>
     <string name="ask_goto_menu">Do you want to go to Home menu?</string>
@@ -16,27 +15,41 @@
     <string name="share_subject">FLASHLIGHT</string>
     <string name="share_text">[Free] FLASHLIGHT \n https://play.google.com/store/apps/details?id=dalcoms.pub.flashlight</string>
     <string name="app_id">dalcoms.pub.flashlight</string>
-    
     <string name="btn_title_play">Play</string>
     <string name="btn_title_next">Next</string>
     <string name="btn_title_retry">Retry</string>
     <string name="btn_title_start">Start</string>
-    
     <string name="text_score">SCORE</string>
     <string name="text_bestscore">BEST</string>
-    
     <string name="text_yes">Yes</string>
     <string name="text_no">No</string>
     <string name="text_cancel">Cancel</string>
-    
     <string name="finger_text">Touch and Fire</string>
-    
     <string name="dlg_gotomenu_title">To Menu</string>
     <string name="dlg_gotomenu_message">Do you want to go to Menu?</string>
-    
     <string name="high_score">dalcoms.pub.flash.highScore</string>
-    
     <string name="no_camera">No camera flash is on your device</string>
     
+    <string name="noti_title_jumpyx">Jumpy X</string>
+    <string name="noti_title_circlecolormatch">Circle</string>
+    <string name="noti_title_brainwavestudio">Brainwave Studio : EEG Gen</string>
+    <string name="noti_title_naturesound">Nature Meditation Sounds</string>
+    <string name="noti_title_lottonumgenall">Lotto Prophet</string>
+    <string name="noti_title_lottonum645only">Lotto645</string>
+    <string name="noti_title_mathkids">Math Kids</string>
+    <string name="noti_title_moodvibrator">Mood Vibrator</string>
+    <string name="noti_title_skinvibrator">Skin Vibrator</string>
+    <string name="noti_title_unitconverter">Unit converter</string>
+    
+    <string name="noti_desc_jumpyx">Jump with JumpyX</string>
+    <string name="noti_desc_circlecolormatch">Color matching game</string>
+    <string name="noti_desc_brainwavestudio">You can tune your brainwave</string>
+    <string name="noti_desc_naturesound">Take a rest and get a peace.</string>
+    <string name="noti_desc_lottonumgenall">Win the Lotto</string>
+    <string name="noti_desc_lottonum645only">Win the Lotto645</string>
+    <string name="noti_desc_mathkids">Basic mathematics for Kids</string>
+    <string name="noti_desc_moodvibrator">Free vibration app</string>
+    <string name="noti_desc_skinvibrator">Free vibration app</string>
+    <string name="noti_desc_unitconverter">You can convert all kind of units</string>
 
 </resources>

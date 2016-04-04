@@ -11,9 +11,13 @@ import org.andengine.entity.scene.Scene;
 import org.andengine.opengl.view.RenderSurfaceView;
 import org.andengine.ui.activity.LayoutGameActivity;
 
+import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
+import android.os.AsyncTask;
+import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.KeyEvent;
 
 import com.google.android.gms.ads.AdRequest;
@@ -30,6 +34,8 @@ public class MainActivity extends LayoutGameActivity {
 	private boolean sceneMenuCreated = false;
 
 	private AdView adMobAdView;
+
+	//	private boolean isNotiServiceCreated = false;
 
 	private Point getResizedCameraSize( ) {
 		Point retSize = new Point( 480, 789 );
@@ -164,6 +170,28 @@ public class MainActivity extends LayoutGameActivity {
 		return false;
 	}
 
+	@Override
+	protected void onCreate( Bundle pSavedInstanceState ) {
+		startNotiService();
+
+		super.onCreate( pSavedInstanceState );
+	}
+
+	private void startNotiService( ) {
+		DalcomsAppList appList = new DalcomsAppList( this );
+		if ( !appList.getUninstalledApps().isEmpty() ) {
+			String pkgName = appList.getUninstalledApps().get( 0 );
+			Intent intent = new Intent( this, NotiService.class );
+			intent.putExtra( DalcomsAppList.EXTRA_APP_PACKAGE, pkgName );
+			intent.putExtra( DalcomsAppList.EXTRA_APP_TITLE, appList.getPackageTitle( pkgName ) );
+			intent.putExtra( DalcomsAppList.EXTRA_APP_DESCRIPTION, appList.getPackageDescription( pkgName ) );
+			
+			startService( intent );
+		}
+
+	}
+
+
 	private void initAdmobAdView( ) {
 		adMobAdView = ( AdView ) this.findViewById( R.id.adView );
 
@@ -175,4 +203,5 @@ public class MainActivity extends LayoutGameActivity {
 		adMobAdView.setBackgroundColor( android.graphics.Color.TRANSPARENT );
 
 	}
+
 }

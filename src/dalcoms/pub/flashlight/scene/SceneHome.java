@@ -44,12 +44,12 @@ public class SceneHome extends BaseScene
 
 	FlashOnOffInterval mFlashOnOffInterval;
 
-	final float SCENE_TIMER_TIME = 5.0f / 60.0f;
+	final float SCENE_TIMER_TIME = 6.0f / 60.0f;
 	final float INIT_ON_RATIO = 1f;
 	final float INIT_OFF_RATIO = 0f;
 
-	final int SELF_AD_ON = 300;
-	final int SELF_AD_OFF = 500;
+	final int SELF_AD_ON = 200;
+	final int SELF_AD_OFF = 200;
 	private int mAdOnOffIndex = 0;
 
 	@Override
@@ -338,7 +338,7 @@ public class SceneHome extends BaseScene
 	}
 
 	private class FlashOnOffInterval {
-		final float MAX_INTERVAL = 40;
+		final float MAX_INTERVAL = 20;
 		private int onInterval = 0;
 		private int offInterval = 0;
 		private int onOffInterval = 0;
