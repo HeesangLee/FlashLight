@@ -14,10 +14,11 @@ FingerBrickBreaker 작업에 지쳐 있음 → Refresh 필요 → 완전 단순�
 
 ##ToDo
 - **Seek bar**
- - sceneTouch.isUp → adjust key position via step.
+ - sceneTouch.isUp → adjust key position via step. [적용 완료]
 - Application.onDestroy()에서 카메라를 null 처리할 때 에러 발생
  - 현재 : 임시 방안으로 **try/catch** 로 에러가 보여지는 것만 맊았음.
  - 해결 방안 찾아서 적용해야 함.
+- 배포판 apk 생성전에 **Log 메세지** 모두 주석 처리할 것.
 
 ##Issue Tracking
 - OnOff button 완료
@@ -76,5 +77,33 @@ Attach 했을 때의 효과가 그리 크지 않을 것 같음.
 구성 요소들의 Effect를 너무 과하게 주지는 말 것.
 ### OnOff Button click effect
 - Holo effect when isActionDown
+
+##Notification text
+
+**++BackUp++**
+```
+	<string name="noti_title_jumpyx">Jumpy X</string>
+    <string name="noti_title_circlecolormatch">Circle</string>
+    <string name="noti_title_brainwavestudio">Brainwave Studio : EEG Gen</string>
+    <string name="noti_title_naturesound">Nature Meditation Sounds</string>
+    <string name="noti_title_lottonumgenall">Lotto Prophet</string>
+    <string name="noti_title_lottonum645only">Lotto645</string>
+    <string name="noti_title_mathkids">Math Kids</string>
+    <string name="noti_title_moodvibrator">Mood Vibrator</string>
+    <string name="noti_title_skinvibrator">Skin Vibrator</string>
+    <string name="noti_title_unitconverter">Unit converter</string>
+    
+    <string name="noti_desc_jumpyx">Jump with JumpyX</string>
+    <string name="noti_desc_circlecolormatch">Color matching game</string>
+    <string name="noti_desc_brainwavestudio">You can tune your brainwave</string>
+    <string name="noti_desc_naturesound">Take a rest and get a peace.</string>
+    <string name="noti_desc_lottonumgenall">Win the Lotto</string>
+    <string name="noti_desc_lottonum645only">Win the Lotto645</string>
+    <string name="noti_desc_mathkids">Basic mathematics for Kids</string>
+    <string name="noti_desc_moodvibrator">Free vibration app</string>
+    <string name="noti_desc_skinvibrator">Free vibration app</string>
+    <string name="noti_desc_unitconverter">You can convert all kind of units</string>
+
+```
 
 

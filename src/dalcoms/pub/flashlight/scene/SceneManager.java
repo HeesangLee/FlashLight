@@ -2,17 +2,16 @@ package dalcoms.pub.flashlight.scene;
 
 import org.andengine.ui.IGameInterface.OnCreateSceneCallback;
 
-import android.util.Log;
-
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 
 import dalcoms.pub.flashlight.R;
 import dalcoms.pub.flashlight.ResourcesManager;
+//import android.util.Log;
 
 public class SceneManager {
-	private final String TAG = this.getClass().getSimpleName();
+//	private final String TAG = this.getClass().getSimpleName();
 	private static final SceneManager instance = new SceneManager();
 
 	private boolean flagResultInterstitialAdOn = false;
@@ -43,7 +42,7 @@ public class SceneManager {
 				break;
 			default :
 				setScene( sceneHome );
-				Log.e( TAG, "Scene creation is done with unexpected routine" );
+//				Log.e( TAG, "Scene creation is done with unexpected routine" );
 				break;
 		}
 	}
@@ -76,7 +75,7 @@ public class SceneManager {
 				this.disposeSceneHome();
 				break;
 			default :
-				Log.v( "Dispose Scene Error", "Some Scene selection is not correct" );
+//				Log.v( "Dispose Scene Error", "Some Scene selection is not correct" );
 				break;
 		}
 	}

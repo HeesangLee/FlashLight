@@ -24,11 +24,14 @@ import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Point;
+import android.hardware.Camera.CameraInfo;
 import android.hardware.Camera.Parameters;
 import android.os.Vibrator;
 import android.util.Log;
+import android.view.SurfaceView;
 import android.widget.Toast;
 
+@SuppressWarnings( "deprecation" )
 public class ResourcesManager {
 	private static final ResourcesManager instance = new ResourcesManager();
 
@@ -38,7 +41,7 @@ public class ResourcesManager {
 	protected VertexBufferObjectManager vbom;
 
 	protected Vibrator pVibrator;
-	protected android.hardware.Camera mHardwareCamera;
+	static android.hardware.Camera mHardwareCamera = null;
 	private boolean mIsCameraFlashAvailable;
 	Parameters mHardwareCameraParameter;
 
@@ -104,11 +107,10 @@ public class ResourcesManager {
 	}
 
 	private void prepareHardwareCameraFlash( ) {
-		if ( checkCameraFlashAvailable() ) {
-			setHardwareCamera();
-		} else {
+		if ( !checkCameraFlashAvailable() ) {
 			safeToastMessageShow( activity.getString( R.string.no_camera ), Toast.LENGTH_SHORT );
 		}
+
 	}
 
 	private boolean checkCameraFlashAvailable( ) {
@@ -118,7 +120,11 @@ public class ResourcesManager {
 	}
 
 	private void setHardwareCamera( ) {
-		mHardwareCamera = android.hardware.Camera.open();
+		try {
+			mHardwareCamera = android.hardware.Camera.open( CameraInfo.CAMERA_FACING_BACK );
+		} catch ( Exception e ) {
+			e.printStackTrace();
+		}
 		mHardwareCameraParameter = mHardwareCamera.getParameters();
 		mHardwareCameraParameter.setFlashMode( Parameters.FLASH_MODE_OFF );
 		mHardwareCamera.setParameters( mHardwareCameraParameter );
@@ -127,6 +133,11 @@ public class ResourcesManager {
 
 	public android.hardware.Camera getHardwareCamera( ) {
 		return this.mHardwareCamera;
+	}
+
+	public void releaseHardwareCamera( ) {
+		this.mHardwareCamera.release();
+		this.mHardwareCamera = null;
 	}
 
 	public boolean isCameraFlashAvailable( ) {
@@ -373,13 +384,13 @@ public class ResourcesManager {
 
 		this.fontDefault = FontFactory.createFromAsset(
 				activity.getFontManager(), tFontTextureDefault,
-				activity.getAssets(), "UbuntuB.ttf", FONT_SIZE_DEFAULT, true,
+				activity.getAssets(), "UbuntuB.ttf", applyResizeFactor( FONT_SIZE_DEFAULT ), true,
 				AppColor.getInstance().WHITE.getABGRPackedInt() );
 		this.fontDefault.load();
 
 		this.fontButton = FontFactory.createFromAsset(
 				activity.getFontManager(), tFontTextureButton,
-				activity.getAssets(), "UbuntuB.ttf", FONT_SIZE_BUTTON, true,
+				activity.getAssets(), "UbuntuB.ttf", applyResizeFactor( FONT_SIZE_BUTTON ), true,
 				AppColor.getInstance().WHITE.getABGRPackedInt() );
 		this.fontButton.load();
 

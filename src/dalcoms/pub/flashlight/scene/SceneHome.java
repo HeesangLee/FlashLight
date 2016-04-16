@@ -55,6 +55,7 @@ public class SceneHome extends BaseScene
 	@Override
 	public void createScene( ) {
 		this.setBackground( new Background( this.appColor.APP_BACKGROUND ) );
+//		ResourcesManager.getInstance().resumeHardwareCamera();
 
 		mFlashOnOffInterval = new FlashOnOffInterval( INIT_ON_RATIO, INIT_OFF_RATIO );
 		setOnSceneTouchListener( this );

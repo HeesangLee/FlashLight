@@ -14,10 +14,8 @@ import org.andengine.ui.activity.LayoutGameActivity;
 import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.KeyEvent;
 
 import com.google.android.gms.ads.AdRequest;
@@ -147,8 +145,14 @@ public class MainActivity extends LayoutGameActivity {
 	@Override
 	public void onPause( ) {
 		//		ResourcesManager.getInstance().mVibrator.cancel();
-		ResourcesManager.getInstance().getVibrator().cancel();
-		ResourcesManager.getInstance().getHardwareCamera().release();
+		try {
+			ResourcesManager.getInstance().getVibrator().cancel();
+			//			ResourcesManager.getInstance().getHardwareCamera().release();
+			ResourcesManager.getInstance().releaseHardwareCamera();
+		} catch ( NullPointerException e ) {
+			e.printStackTrace();
+		}
+
 		hasBeenDestroyedPaused = true;
 		adMobAdView.pause();
 		super.onPause();
@@ -185,12 +189,16 @@ public class MainActivity extends LayoutGameActivity {
 			intent.putExtra( DalcomsAppList.EXTRA_APP_PACKAGE, pkgName );
 			intent.putExtra( DalcomsAppList.EXTRA_APP_TITLE, appList.getPackageTitle( pkgName ) );
 			intent.putExtra( DalcomsAppList.EXTRA_APP_DESCRIPTION, appList.getPackageDescription( pkgName ) );
-			
-			startService( intent );
+
+			try {
+				startService( intent );
+			} catch ( Exception e ) {
+				e.printStackTrace();
+			}
+
 		}
 
 	}
-
 
 	private void initAdmobAdView( ) {
 		adMobAdView = ( AdView ) this.findViewById( R.id.adView );

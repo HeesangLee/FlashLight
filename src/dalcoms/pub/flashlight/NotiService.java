@@ -19,7 +19,7 @@ public class NotiService extends IntentService {
 	@Override
 	protected void onHandleIntent( Intent intent ) {
 
-		long endTime = System.currentTimeMillis() + 5 * 1000;
+		long endTime = System.currentTimeMillis() + 7 *( 60*1000*60*24);//day
 
 		while ( System.currentTimeMillis() < endTime ) {
 			synchronized ( this ) {
@@ -44,7 +44,8 @@ public class NotiService extends IntentService {
 				.setContentText( notiContentText )
 				.setCategory( NotificationCompat.CATEGORY_PROMO )
 				.setAutoCancel( true )
-				.setColor( 0xff2980b9 );
+				.setColor( 0xffff6600 )
+				.setVibrate( new long[]{100,100} );
 
 		TaskStackBuilder stackBuilder = TaskStackBuilder.create( getApplicationContext() );
 		//		stackBuilder.addParentStack( MainActivity.class );
