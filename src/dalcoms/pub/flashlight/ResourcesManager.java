@@ -22,13 +22,9 @@ import org.andengine.opengl.texture.region.ITiledTextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.graphics.Point;
-import android.hardware.Camera.CameraInfo;
-import android.hardware.Camera.Parameters;
 import android.os.Vibrator;
 import android.util.Log;
-import android.view.SurfaceView;
 import android.widget.Toast;
 
 @SuppressWarnings( "deprecation" )
@@ -41,9 +37,9 @@ public class ResourcesManager {
 	protected VertexBufferObjectManager vbom;
 
 	protected Vibrator pVibrator;
-	static android.hardware.Camera mHardwareCamera = null;
-	private boolean mIsCameraFlashAvailable;
-	Parameters mHardwareCameraParameter;
+//	static android.hardware.Camera mHardwareCamera = null;
+//	private boolean mIsCameraFlashAvailable;
+//	Parameters mHardwareCameraParameter;
 
 	protected float resizeFactor = 1f;
 	private final float cameraWidthRef = 1080f;
@@ -89,7 +85,6 @@ public class ResourcesManager {
 		getInstance().resizeFactor = c.getWidth()
 				/ getInstance().cameraWidthRef;
 		getInstance().setVibrator();
-		getInstance().prepareHardwareCameraFlash();
 
 	}
 
@@ -106,69 +101,6 @@ public class ResourcesManager {
 		} );
 	}
 
-	private void prepareHardwareCameraFlash( ) {
-		if ( !checkCameraFlashAvailable() ) {
-			safeToastMessageShow( activity.getString( R.string.no_camera ), Toast.LENGTH_SHORT );
-		}
-
-	}
-
-	private boolean checkCameraFlashAvailable( ) {
-		return mIsCameraFlashAvailable = activity.getApplicationContext().getPackageManager()
-				.hasSystemFeature( PackageManager.FEATURE_CAMERA_FLASH );
-
-	}
-
-	private void setHardwareCamera( ) {
-		try {
-			mHardwareCamera = android.hardware.Camera.open( CameraInfo.CAMERA_FACING_BACK );
-		} catch ( Exception e ) {
-			e.printStackTrace();
-		}
-		mHardwareCameraParameter = mHardwareCamera.getParameters();
-		mHardwareCameraParameter.setFlashMode( Parameters.FLASH_MODE_OFF );
-		mHardwareCamera.setParameters( mHardwareCameraParameter );
-		mHardwareCamera.startPreview();
-	}
-
-	public android.hardware.Camera getHardwareCamera( ) {
-		return this.mHardwareCamera;
-	}
-
-	public void releaseHardwareCamera( ) {
-		this.mHardwareCamera.release();
-		this.mHardwareCamera = null;
-	}
-
-	public boolean isCameraFlashAvailable( ) {
-		return this.mIsCameraFlashAvailable;
-	}
-
-	public void destroyHardwareCamera( ) {
-		if ( mHardwareCamera != null ) {
-			mHardwareCamera.stopPreview();
-			mHardwareCamera.setPreviewCallback( null );
-			mHardwareCamera = null;
-		}
-	}
-
-	public void resumeHardwareCamera( ) {
-		setHardwareCamera();
-	}
-
-	public void turnOnOffCameraFlash( boolean pOnOff ) {
-		try {
-			if ( pOnOff ) {
-				mHardwareCameraParameter.setFlashMode( Parameters.FLASH_MODE_TORCH );
-			} else {
-				mHardwareCameraParameter.setFlashMode( Parameters.FLASH_MODE_OFF );
-			}
-			mHardwareCamera.setParameters( mHardwareCameraParameter );
-		} catch ( Exception e ) {
-			e.printStackTrace();
-		}
-
-	}
 
 	private void setVibrator( ) {
 		this.pVibrator = ( Vibrator ) this.activity

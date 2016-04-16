@@ -24,6 +24,7 @@ import android.app.Activity;
 import android.widget.Toast;
 import dalcoms.pub.flashlight.GoMarketSharStarAnimatedSprite;
 import dalcoms.pub.flashlight.Gotype;
+import dalcoms.pub.flashlight.MainActivity;
 import dalcoms.pub.flashlight.R;
 import dalcoms.pub.flashlight.RectangleOnOffButton;
 import dalcoms.pub.flashlight.RectangleSeekBar;
@@ -48,14 +49,13 @@ public class SceneHome extends BaseScene
 	final float INIT_ON_RATIO = 1f;
 	final float INIT_OFF_RATIO = 0f;
 
-	final int SELF_AD_ON = 200;
-	final int SELF_AD_OFF = 200;
+	final int SELF_AD_ON = 150;
+	final int SELF_AD_OFF = 90;
 	private int mAdOnOffIndex = 0;
 
 	@Override
 	public void createScene( ) {
 		this.setBackground( new Background( this.appColor.APP_BACKGROUND ) );
-//		ResourcesManager.getInstance().resumeHardwareCamera();
 
 		mFlashOnOffInterval = new FlashOnOffInterval( INIT_ON_RATIO, INIT_OFF_RATIO );
 		setOnSceneTouchListener( this );
@@ -104,7 +104,8 @@ public class SceneHome extends BaseScene
 	}
 
 	private void flashLightOnControlcheckTimer( ) {
-		resourcesManager.turnOnOffCameraFlash( isLightOn() & mFlashOnOffInterval.isLightOn() );
+		activity.turnOnOffCameraFlash( isLightOn() & mFlashOnOffInterval.isLightOn() );
+
 		setLightOnOffEffect( isLightOn(), mFlashOnOffInterval.isLightOn() );// set blink via blink status;
 		mFlashOnOffInterval.next();
 	}
@@ -195,14 +196,13 @@ public class SceneHome extends BaseScene
 	}
 
 	private void setButtonOnOff( boolean pBtnOnOff ) {
-		if ( resourcesManager.isCameraFlashAvailable() ) {
+		if ( activity.isCameraFlashAvailable() ) {
 			this.LIGHT_ON_OFF = pBtnOnOff;
-			//			setLightOnOffEffect( isLightOn(), true );// set blink via blink status;
 			setEnableOnOffSeekBars( isLightOn(), isLightOn() );
-			//			resourcesManager.turnOnOffCameraFlash( isLightOn() );
 		} else {
 			resourcesManager.safeToastMessageShow( activity.getString( R.string.no_camera ),
 					Toast.LENGTH_SHORT );
+
 		}
 	}
 
@@ -234,7 +234,6 @@ public class SceneHome extends BaseScene
 	}
 
 	private void attachMarketShareStarAnimatedSprites( ) {
-		//		final float pY = resourcesManager.applyResizeFactor( 1420f );
 		final float pY = camera.getHeight();
 		float[] pX = appComm.getDistributedCenterOrgPosition(
 				resourcesManager.regionMarketShareStar.getWidth(), 3,
@@ -276,7 +275,7 @@ public class SceneHome extends BaseScene
 	}
 
 	@Override
-	public Activity getActivity( ) {
+	public MainActivity getActivity( ) {
 		return this.activity;
 	}
 

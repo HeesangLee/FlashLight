@@ -140,10 +140,6 @@ public class RectangleSeekBar extends Rectangle {
 	}
 
 	public void rePositionKey( float pPositionRatio ) {
-		//		final float pX = getSeekPosition( pPositionRatio );
-		//		mRectSwitch.setX( pX );
-		//
-		//		mRectActiveBar.setWidth( pX );
 
 		setKeyPosition( getSeekPosition( pPositionRatio ) );
 	}

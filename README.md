@@ -12,7 +12,19 @@ FingerBrickBreaker 작업에 지쳐 있음 → Refresh 필요 → 완전 단순�
 >생각보다 간단하지 아니하다.
 >항상 그러하듯이.....
 
+## Too Big Problem
+**LG G2 외 모든 폰에서 실행 안됨.**
+Camera 관련된 부분을 고쳐야 함. → Camera open 에서 문제가 생기고 있음.
+
+### References
+- https://github.com/matthewmichihara/flashlight-android/blob/master/res/layout/main.xml
+
+### 해결?????
+AsyncTask + on MainActivity 로 수정한 뒤 폰을 리셋하니 된다... 왜지?
+
 ##ToDo
+- **삼성폰 resolution으로 맞춰야 하나??**
+ - resolution을 변경하면 resize factor 부분도 모두 변경해야 함. → 이건 나중에 생각해 볼 것.
 - **Seek bar**
  - sceneTouch.isUp → adjust key position via step. [적용 완료]
 - Application.onDestroy()에서 카메라를 null 처리할 때 에러 발생

@@ -72,10 +72,10 @@ public class DalcomsAppList {
 		this.mPackageDescriptionMap = new HashMap<String, String>() {
 			{
 				put( "dalcoms.pub.jumpyx", mContext.getString( R.string.noti_desc_jumpyx ) );
-				put( "dalcoms.pub.circlecolormatch", mContext.getString( R.string.noti_desc_circlecolormatch ) );
 				put( "dalcoms.pub.brainwavestudio", mContext.getString( R.string.noti_desc_brainwavestudio ) );
 				put( "dalcoms.pub.naturesound", mContext.getString( R.string.noti_desc_naturesound ) );
 				put( "dalcoms.pub.lottonumgenall", mContext.getString( R.string.noti_desc_lottonumgenall ) );
+				put( "dalcoms.pub.circlecolormatch", mContext.getString( R.string.noti_desc_circlecolormatch ) );
 				put( "dalcoms.pub.lottonum645only", mContext.getString( R.string.noti_desc_lottonum645only ) );
 				put( "dalcoms.pub.mathkids", mContext.getString( R.string.noti_desc_mathkids ) );
 				put( "dalcoms.pub.moodvibrator", mContext.getString( R.string.noti_desc_moodvibrator ) );
